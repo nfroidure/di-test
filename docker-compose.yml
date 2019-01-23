@@ -1,0 +1,25 @@
+version: '3'
+services:
+  ftpdev:
+    image: "onekilo79/ftpd_test"
+    container_name: "yolo-ftpdev"
+    volumes:
+      - "./ftp/data:/hostmount"
+    ports:
+      - "1021:21"
+      - "30000-30009:30000-30009"
+    environment:
+      - "PUBLICHOST=localhost"
+  # See:
+  # https://hub.docker.com/_/postgres/
+  postgres:
+    image: "postgres"
+    container_name: "yolo-postgres"
+  #    volumes:
+  #      - "./pgsql/data:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRES_PASSWORD=mysecretpassword"
+      - "POSTGRES_USER=yolo"
+      - "POSTGRES_DB=yolo"
+    ports:
+      - "15432:5432"

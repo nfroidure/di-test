@@ -1,12 +1,10 @@
 import Client from 'ftp';
 import initConfig, { Config } from './config';
-import { service } from 'knifecycle';
+import { provider } from 'knifecycle';
 
-export default service(initFTP, 'ftp', ['config']);
+export default provider(initFTP, 'ftp', ['config']);
 
-async function initFTP({ config } : {
-  config: Config,
-}) {
+async function initFTP({ config }: { config: Config }) {
   const ftp = new Client();
   const connectionPromise = new Promise((resolve, reject) => {
     ftp.on('ready', resolve);
@@ -17,5 +15,11 @@ async function initFTP({ config } : {
 
   await connectionPromise;
 
-  return ftp;
+  return {
+    service: ftp,
+    dispose: async () => ftp.end(),
+    fatalErrorPromise: <Promise<void>>new Promise((resolve, reject) => {
+      ftp.on('error', reject);
+    }),
+  };
 }

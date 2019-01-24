@@ -11,7 +11,5 @@ async function initPrintRows({ db }: { db: Client }) {
     rows.forEach(row => {
       console.log(row);
     });
-
-    db.end();
   };
 }

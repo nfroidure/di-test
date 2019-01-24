@@ -3,16 +3,16 @@ import Client from 'ftp';
 import initArgs, { Args } from '../services/args';
 import { autoService } from 'knifecycle';
 
-export default autoService(initInsertRows)
+export default autoService(initPutToFTP)
 
-async function initInsertRows({
+async function initPutToFTP({
   args,
   ftp,
 }: {
   args: Args;
   ftp: Client;
 }) {
-  return async function insertRows() {
+  return async function putToFTP() {
     await Promise.all(
       args.path.map(
         aPath =>
@@ -27,7 +27,5 @@ async function initInsertRows({
           }),
       ),
     );
-
-    ftp.end();
   };
 }

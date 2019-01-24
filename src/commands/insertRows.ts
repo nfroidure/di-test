@@ -1,8 +1,6 @@
 import fs from 'fs';
-import initDB from '../services/db';
-import initFTP from '../services/ftp';
-import initLog, { Logger } from '../services/log';
-import initArgs, { Args } from '../services/args';
+import { Logger } from '../services/log';
+import { Args } from '../services/args';
 import { autoService } from 'knifecycle';
 import { Client as ClientPG } from 'pg';
 import Client from 'ftp';
@@ -20,7 +18,6 @@ async function initInsertRows({
   log: Logger;
   args: Args;
 }) {
-
   return async function insertRows() {
     log('Rebuild from scratch.');
     await db.query(`DROP TABLE IF EXISTS rows`);
@@ -61,8 +58,5 @@ async function initInsertRows({
         );
       }),
     );
-
-    db.end();
-    ftp.end();
   };
 }

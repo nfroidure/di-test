@@ -10,7 +10,9 @@ async function run() {
     $.register(initAutoload);
     $.register(constant('ENV', process.env));
 
-    const { command } = await $.run(['command']);
+    const { $destroy } = await $.run(['command', '$destroy']);
+
+    await $destroy();
   } catch (err) {
     console.error('Error:', err.stack);
     process.exit(1);

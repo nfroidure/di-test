@@ -1,8 +1,12 @@
 import Client from 'ftp';
-import initConfig from './config';
+import initConfig, { Config } from './config';
+import { service } from 'knifecycle';
 
-export default async function initFTP() {
-  const config = await initConfig();
+export default service(initFTP, 'ftp', ['config']);
+
+async function initFTP({ config } : {
+  config: Config,
+}) {
   const ftp = new Client();
   const connectionPromise = new Promise((resolve, reject) => {
     ftp.on('ready', resolve);

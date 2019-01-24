@@ -1,2 +1,0 @@
-1,nfroidure,Nicolas,Froidure,YOLO
-2,jjr,Jean-Jacques,Rousseau,C'est pas ma faute !

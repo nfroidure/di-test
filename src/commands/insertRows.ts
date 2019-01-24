@@ -1,14 +1,25 @@
 import fs from 'fs';
 import initDB from '../services/db';
 import initFTP from '../services/ftp';
-import initLog from '../services/log';
-import initArgs from '../services/args';
+import initLog, { Logger } from '../services/log';
+import initArgs, { Args } from '../services/args';
+import { autoService } from 'knifecycle';
+import { Client as ClientPG } from 'pg';
+import Client from 'ftp';
 
-export default async function initInsertRows() {
-  const db = await initDB();
-  const ftp = await initFTP();
-  const log = await initLog();
-  const args = await initArgs();
+export default autoService(initInsertRows);
+
+async function initInsertRows({
+  db,
+  ftp,
+  log,
+  args,
+}: {
+  db: ClientPG;
+  ftp: Client;
+  log: Logger;
+  args: Args;
+}) {
 
   return async function insertRows() {
     log('Rebuild from scratch.');
@@ -53,5 +64,5 @@ export default async function initInsertRows() {
 
     db.end();
     ftp.end();
-  }
+  };
 }

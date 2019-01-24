@@ -1,4 +1,5 @@
 import argv from 'argv';
+import { service } from 'knifecycle';
 
 export type Args = {
   type: string;
@@ -6,7 +7,9 @@ export type Args = {
   command: string;
 };
 
-export default async function initArgs() {
+export default service(initArgs, 'args');
+
+async function initArgs() {
   argv.option([
     {
       name: 'type',

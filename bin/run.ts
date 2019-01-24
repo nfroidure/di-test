@@ -1,12 +1,16 @@
-import initCommand from '../src/services/command';
+import initAutoload from '../src/services/_autoload';
+import Knifecycle, { constant } from 'knifecycle';
 
 run();
 
 async function run() {
   try {
-    const command = await initCommand();
+    const $ = new Knifecycle();
 
-    await command();
+    $.register(initAutoload);
+    $.register(constant('ENV', process.env));
+
+    const { command } = await $.run(['command']);
   } catch (err) {
     console.error('Error:', err.stack);
     process.exit(1);

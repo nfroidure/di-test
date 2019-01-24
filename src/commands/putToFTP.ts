@@ -1,11 +1,17 @@
 import path from 'path';
-import initFTP from '../services/ftp';
-import initArgs from '../services/args';
+import Client from 'ftp';
+import initArgs, { Args } from '../services/args';
+import { autoService } from 'knifecycle';
 
-export default async function initInsertRows() {
-  const ftp = await initFTP();
-  const args = await initArgs();
+export default autoService(initInsertRows)
 
+async function initInsertRows({
+  args,
+  ftp,
+}: {
+  args: Args;
+  ftp: Client;
+}) {
   return async function insertRows() {
     await Promise.all(
       args.path.map(

@@ -1,8 +1,12 @@
 import pg from 'pg';
-import initConfig from './config';
+import initConfig, { Config } from './config';
+import { autoService, name } from 'knifecycle';
 
-export default async function initDB() {
-  const config = await initConfig();
+export default name('db', autoService(initDB));
+
+async function initDB({ config } : {
+  config: Config
+}) {
   const client = new pg.Client(config.db);
 
   await client.connect();
